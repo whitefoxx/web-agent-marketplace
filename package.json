@@ -1,0 +1,13 @@
+{
+  "name": "webchat-agent-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Adapter catalog for the WebChat Agent extension (served over GitHub raw).",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.0"
+  }
+}
