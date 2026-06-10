@@ -40,7 +40,10 @@ function mapSubredditRow(entry, index) {
         : (displayName ? `r/${displayName}` : '');
     const path = typeof data.url === 'string' && data.url.startsWith('/r/') ? data.url : '';
     if (!id || !displayName || !subreddit || !path) {
-        throw new CommandExecutionError(`Reddit subscriptions row ${index + 1} was missing subreddit identity.`);
+        // Skip non-subreddit rows instead of failing the whole list — subscriber.json
+        // includes the user's own profile sub (u_<name>, url /user/…) which has no
+        // /r/ path. F-20 (the strict throw made one such row blank the result).
+        return null;
     }
     return {
         id,
@@ -156,7 +159,10 @@ cli({
         if (result?.kind !== 'ok' || !Array.isArray(result.entries)) {
             throw new CommandExecutionError(`Unexpected result from reddit subscribed: ${JSON.stringify(result)}`);
         }
-        const rows = result.entries.slice(0, limit).map((entry, index) => mapSubredditRow(entry, index));
+        const rows = result.entries
+            .map((entry, index) => mapSubredditRow(entry, index))
+            .filter(Boolean)
+            .slice(0, limit);
         if (rows.length === 0) {
             throw new EmptyResultError('Reddit returned no subscribed subreddits for the logged-in account.');
         }
