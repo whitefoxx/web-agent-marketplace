@@ -7,43 +7,28 @@ import { ArgumentError, CliError, EmptyResultError } from "@jackwener/opencli/er
 
 // ../browser-agent/opencli/clis/douban/utils.js
 async function getSelfUid(page) {
-  await page.goto("https://movie.douban.com/mine");
-  await page.wait({ time: 2 });
+  // F-15: resolve uid via an IN-PAGE fetch, NOT page.goto("/mine"). marks paginates
+  // with a goto-loop below; mixing a goto here with those gotos makes the
+  // /mine→/people redirect ping-pong against pagination across the re-exec
+  // trampoline (each reinject restarts the func from the top, losing loop state)
+  // → "exceeded 5 navigate-reinject cycles" (§10.21). Doing everything via fetch
+  // keeps the whole command to ZERO main-tab navigations → one clean execution.
+  // /mine 302-redirects to /people/<uid>/, so the resolved response URL carries it.
   const uid = await page.evaluate(`
-    (() => {
-      // 方案1: 尝试从全局变量获取
-      if (window.__DATA__ && window.__DATA__.uid) {
-        return window.__DATA__.uid;
+    (async () => {
+      try {
+        const r = await fetch('https://movie.douban.com/mine', { credentials: 'include' });
+        const m = (r.url || '').match(/people\\/([^/]+)/);
+        if (m && m[1] && m[1] !== 'mine') return m[1];
+        const txt = await r.text();
+        const m2 = txt.match(/people\\/([A-Za-z0-9_-]+)\\//);
+        return m2 ? m2[1] : '';
+      } catch (e) {
+        return '';
       }
-      
-      // 方案2: 从导航栏用户链接获取
-      const navUserLink = document.querySelector('.nav-user-account a');
-      if (navUserLink) {
-        const href = navUserLink.href || '';
-        const match = href.match(/people\\/([^/]+)/);
-        if (match) return match[1];
-      }
-      
-      // 方案3: 从页面中的个人主页链接获取
-      const profileLink = document.querySelector('a[href*="/people/"]');
-      if (profileLink) {
-        const href = profileLink.getAttribute('href') || profileLink.href || '';
-        const match = href.match(/people\\/([^/]+)/);
-        if (match) return match[1];
-      }
-      
-      // 方案4: 从头部用户名区域获取
-      const userLink = document.querySelector('.global-nav-items a[href*="/people/"]');
-      if (userLink) {
-        const href = userLink.getAttribute('href') || userLink.href || '';
-        const match = href.match(/people\\/([^/]+)/);
-        if (match) return match[1];
-      }
-      
-      return '';
     })()
   `);
-  if (!uid) {
+  if (!uid || typeof uid !== "string") {
     throw new Error("Not logged in to Douban. Please login in Chrome first.");
   }
   return uid;
@@ -89,14 +74,18 @@ async function fetchMarks(page, uid, status, limit) {
   const pageSize = 15;
   while (true) {
     const url = `https://movie.douban.com/people/${uid}/${status}?start=${offset}&sort=time&rating=all&filter=all&mode=grid`;
-    await page.goto(url);
-    await page.wait({ time: 2 });
+    // F-15: fetch + parse the page IN-PAGE (no page.goto) so pagination makes zero
+    // main-tab navigations and the func runs to completion in one execution.
     const pageMarks = await page.evaluate(`
-      () => {
+      (async () => {
+        const resp = await fetch(${JSON.stringify(url)}, { credentials: 'include' });
+        if (!resp.ok) return [];
+        const html = await resp.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
         const results = [];
-        
-        const items = document.querySelectorAll('.item');
-        
+
+        const items = doc.querySelectorAll('.item');
+
         items.forEach(item => {
           const titleLink = item.querySelector('.info a[href*="/subject/"]');
           if (!titleLink) return;
@@ -148,7 +137,7 @@ async function fetchMarks(page, uid, status, limit) {
         });
         
         return results;
-      }
+      })()
     `);
     if (!pageMarks || pageMarks.length === 0)
       break;
