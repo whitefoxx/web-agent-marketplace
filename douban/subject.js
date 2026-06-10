@@ -162,7 +162,7 @@ async function loadDoubanMovieSubject(page, subjectId) {
     (() => {
       const id = ${JSON.stringify(normalizedId)};
       const normalize = (value) => (value || '').replace(/\\s+/g, ' ').trim();
-      const { title, originalTitle } = (${splitDoubanTitle.toString()})(normalize(document.querySelector('span[property="v:itemreviewed"]')?.textContent || ''));
+      const fullTitle = normalize(document.querySelector('span[property="v:itemreviewed"]')?.textContent || '');
       const year = normalize(document.querySelector('.year')?.textContent).replace(/[()（）]/g, '');
       const rating = parseFloat(normalize(document.querySelector('strong[property="v:average"]')?.textContent || '0')) || 0;
       const ratingCount = parseInt(normalize(document.querySelector('span[property="v:votes"]')?.textContent || '0'), 10) || 0;
@@ -190,8 +190,7 @@ async function loadDoubanMovieSubject(page, subjectId) {
       return {
         id,
         type: 'movie',
-        title,
-        originalTitle,
+        fullTitle,
         year,
         rating,
         ratingCount,
@@ -206,7 +205,12 @@ async function loadDoubanMovieSubject(page, subjectId) {
     })()
   `);
   });
-  return data;
+  // Split "中文名 Original Title" in the FUNC scope (where normalizeText exists) —
+  // NOT inside page.evaluate, where injecting splitDoubanTitle.toString() left a
+  // dangling normalizeText reference → "normalizeText is not defined" (F-9).
+  const { title, originalTitle } = splitDoubanTitle(data?.fullTitle ?? '');
+  const { fullTitle: _fullTitle, ...rest } = data ?? {};
+  return { ...rest, title, originalTitle };
 }
 async function loadDoubanBookSubject(page, subjectId) {
   const normalizedId = normalizeDoubanSubjectId(subjectId);
