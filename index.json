@@ -3641,9 +3641,9 @@
       "type": "func",
       "tier": "official",
       "author": "opencli",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "zhihu/search.js",
-      "sha256": "8c30eeac1086ec19a58f882ecbcdf9ed64fee74b9d210eb23b39ba3b9c3b4c03"
+      "sha256": "96c10048a069181e95f126c65ebd2558ce07f5f652162c934ebdd068a73c0762"
     }
   ]
 }

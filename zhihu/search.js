@@ -126,6 +126,38 @@ function normalizeResultItem(item) {
     }
   };
 }
+function deriveQuestionRow(obj) {
+  // type=question: Zhihu's general search surfaces mostly answers/articles, so a
+  // strict "keep only question objects" filter comes back near-empty for normal
+  // multi-word queries even though the topic is well covered. Instead, collect
+  // the QUESTION behind each hit — a direct question result, or the parent
+  // question of an answer (articles have no parent question). Deduped by question
+  // id by the caller; `votes` carries the answer's upvotes as a popularity hint
+  // (search results don't expose a per-question count).
+  if (!obj || typeof obj !== "object") return null;
+  let questionId;
+  let title;
+  if (obj.type === "question") {
+    questionId = obj.id;
+    title = stripHtml(obj.title || obj.name || "");
+  } else if (obj.type === "answer" && obj.question && obj.question.id != null) {
+    questionId = obj.question.id;
+    title = stripHtml(obj.question.name || obj.question.title || "");
+  } else {
+    return null;
+  }
+  if (questionId == null || !title) return null;
+  return {
+    key: `question:${questionId}`,
+    row: {
+      title,
+      type: "question",
+      author: "",
+      votes: obj.voteup_count || 0,
+      url: `https://www.zhihu.com/question/${questionId}`
+    }
+  };
+}
 cli({
   site: "zhihu",
   name: "search",
@@ -162,6 +194,17 @@ cli({
       })()
     `), url);
       for (const item of data.data) {
+        if (type === "question") {
+          // Derive the question behind each result (direct hit or answer's parent)
+          // instead of the near-empty strict "question objects only" filter.
+          const derived = deriveQuestionRow(item?.object);
+          if (derived && !seen.has(derived.key)) {
+            seen.add(derived.key);
+            results.push(derived.row);
+          }
+          if (results.length >= resultLimit) break;
+          continue;
+        }
         const rawType = item?.object?.type;
         if (type !== "all" && rawType && rawType !== type) continue;
         const normalized = normalizeResultItem(item);
@@ -204,7 +247,8 @@ var __test__ = {
   requireType,
   unwrapEvaluateResult,
   requireSearchPayload,
-  normalizeResultItem
+  normalizeResultItem,
+  deriveQuestionRow
 };
 export {
   __test__
