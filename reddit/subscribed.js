@@ -96,7 +96,7 @@ cli({
         for (let pageIndex = 0; pageIndex < 20 && out.length < target; pageIndex++) {
           const remaining = target - out.length;
           const pageLimit = Math.min(PAGE_SIZE, remaining);
-          const url = '/subreddits/mine/subscriptions.json?limit=' + pageLimit
+          const url = '/subreddits/mine/subscriber.json?limit=' + pageLimit
             + '&raw_json=1'
             + (after ? '&after=' + encodeURIComponent(after) : '');
           const d = await fetchJsonOrLoginWall(url, { credentials: 'include' });
