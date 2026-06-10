@@ -2321,7 +2321,7 @@
       "author": "opencli",
       "version": "1.0.0",
       "source": "twitter/following.js",
-      "sha256": "83366560f1087aac183bd17f11f246643e74eded367453e6051e6523c933520c"
+      "sha256": "a79a37eac19ae7e38d8972579a207184b530e6ffd4501ab77664e514d4d364e4"
     },
     {
       "site": "twitter",
@@ -2366,7 +2366,7 @@
       "site": "twitter",
       "name": "list-add",
       "description": "Get Twitter/X lists for the logged-in user (owned + subscribed)",
-      "access": "read",
+      "access": "write",
       "domain": "x.com",
       "type": "func",
       "tier": "official",
@@ -2392,7 +2392,7 @@
       "site": "twitter",
       "name": "list-remove",
       "description": "Get Twitter/X lists for the logged-in user (owned + subscribed)",
-      "access": "read",
+      "access": "write",
       "domain": "x.com",
       "type": "func",
       "tier": "official",

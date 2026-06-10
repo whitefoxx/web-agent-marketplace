@@ -30,7 +30,7 @@ function sanitizeQueryId(resolved, fallbackId) {
 function normalizeTwitterScreenName(value) {
   const raw = String(value ?? "").trim();
   if (!raw) return "";
-  let candidate = "";
+  let candidate;
   try {
     const url = raw.startsWith("/") ? new URL(raw, "https://x.com") : new URL(raw);
     if (url.protocol !== "https:" || url.username || url.password || url.port || !SCREEN_NAME_HOSTS.has(url.hostname)) {
@@ -331,12 +331,13 @@ cli({
       "X-Twitter-Auth-Type": "OAuth2Session",
       "X-Twitter-Active-User": "yes"
     };
-    const userLookup = unwrapBrowserResult(await page.evaluate(async (url, headers2) => {
-      const resp = await fetch(url, { headers: headers2, credentials: "include" });
+    const userLookupUrl = buildUserByScreenNameUrl(userByScreenNameQueryId, targetUser);
+    const userLookup = unwrapBrowserResult(await page.evaluate(`async () => {
+      const resp = await fetch(${JSON.stringify(userLookupUrl)}, { headers: ${JSON.stringify(headers)}, credentials: "include" });
       if (!resp.ok) return { error: resp.status };
       const d = await resp.json();
       return { userId: d.data?.user?.result?.rest_id || null };
-    }, buildUserByScreenNameUrl(userByScreenNameQueryId, targetUser), headers));
+    }`));
     if (userLookup?.error === 401 || userLookup?.error === 403) {
       throw new AuthRequiredError("x.com", `Twitter user lookup failed (HTTP ${userLookup.error})`);
     }
@@ -353,10 +354,10 @@ cli({
     for (let i = 0; i < MAX_PAGINATION_PAGES && allUsers.length < limit; i++) {
       const fetchCount = Math.min(50, limit - allUsers.length + 10);
       const apiUrl = buildFollowingUrl(followingQueryId, userId, fetchCount, cursor);
-      const data = unwrapBrowserResult(await page.evaluate(async (url, headers2) => {
-        const r = await fetch(url, { headers: headers2, credentials: "include" });
+      const data = unwrapBrowserResult(await page.evaluate(`async () => {
+        const r = await fetch(${JSON.stringify(apiUrl)}, { headers: ${JSON.stringify(headers)}, credentials: "include" });
         return r.ok ? await r.json() : { error: r.status };
-      }, apiUrl, headers));
+      }`));
       if (data?.error) {
         if (data.error === 401 || data.error === 403)
           throw new AuthRequiredError("x.com", `Twitter following request failed (HTTP ${data.error})`);
