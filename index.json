@@ -3524,9 +3524,9 @@
       "type": "func",
       "tier": "official",
       "author": "opencli",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "zhihu/collection.js",
-      "sha256": "b5ee3ff57ef23e3f82a3178297d831de44aea890f08765147fe4f0d61b5d1a0f"
+      "sha256": "acff5629ba10b9564613746ef0aa692ff2bedfcea1ef6d97d590d7a577c36af1"
     },
     {
       "site": "zhihu",

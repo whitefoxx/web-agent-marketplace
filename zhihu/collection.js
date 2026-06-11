@@ -59,12 +59,6 @@ function itemKey(item) {
 function mapCollectionItem(item, rank) {
   const content = item.content || {};
   const type = content.type || "";
-  if (!["answer", "article", "pin"].includes(type)) {
-    throw new CommandExecutionError(
-      `Zhihu collection returned unsupported content type: ${type || "missing"}`,
-      "Collection items require a supported content.type so the row identity, title, and URL are not silently blank."
-    );
-  }
   let title = "";
   let excerpt = "";
   let url = "";
@@ -89,12 +83,20 @@ function mapCollectionItem(item, rank) {
     url = content.url || `https://www.zhihu.com/pin/${content.id}`;
     author = content.author?.name || "匿名用户";
     votes = content.reaction_count || 0;
+  } else if (type === "zvideo") {
+    title = content.title || "";
+    excerpt = stripHtml(content.description || content.excerpt || "").substring(0, 150);
+    url = content.url || `https://www.zhihu.com/zvideo/${content.id}`;
+    author = content.author?.name || "匿名用户";
+    votes = content.voteup_count || content.reaction_count || 0;
+  } else {
+    // F-23: unknown content type (e.g. new Zhihu object types) — skip this row instead of
+    // throwing, so one unsupported item can't fail the entire collection page.
+    return null;
   }
   if (!String(title || "").trim() || !String(url || "").trim() || url.includes("undefined")) {
-    throw new CommandExecutionError(
-      "Zhihu collection returned a malformed item without title or URL identity",
-      "Collection item rows require type, title, and URL so malformed payloads do not become blank listing rows."
-    );
+    // F-23: malformed payload (missing title/URL) — skip rather than fail the whole page.
+    return null;
   }
   return {
     rank,
@@ -176,7 +178,7 @@ cli({
     if (collected.length === 0) {
       throw new EmptyResultError("zhihu collection", `No items found for collection ${collectionId}. The collection may be empty, private, or the offset may be out of range.`);
     }
-    return collected.slice(0, requestedLimit).map((item, i) => mapCollectionItem(item, pageOffset + i + 1));
+    return collected.slice(0, requestedLimit).map((item, i) => mapCollectionItem(item, pageOffset + i + 1)).filter(Boolean);
   }
 });
 var __test__ = {
