@@ -3,7 +3,7 @@
   "bundledAt": "2026-05-31T18:00:00.000Z",
   "generatedFrom": "opencli/clis",
   "includeAll": false,
-  "count": 285,
+  "count": 286,
   "adapters": [
     {
       "site": "arxiv",
@@ -3618,6 +3618,19 @@
       "version": "1.0.0",
       "source": "zhihu/like.js",
       "sha256": "4c9079efe521716c34e61df6f96b254a41d056754d37b1acd59b24824ea376e9"
+    },
+    {
+      "site": "zhihu",
+      "name": "unlike",
+      "description": "取消赞：移除你对某条知乎回答/文章的赞（reverse of zhihu__like）",
+      "access": "write",
+      "domain": "zhihu.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "zhihu/unlike.js",
+      "sha256": "19ece84475acf092b8ac8da99cc913c79834d52b1424e042effd8e19b2f70091"
     },
     {
       "site": "zhihu",
