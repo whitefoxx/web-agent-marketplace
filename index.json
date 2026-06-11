@@ -3,7 +3,7 @@
   "bundledAt": "2026-05-31T18:00:00.000Z",
   "generatedFrom": "opencli/clis",
   "includeAll": false,
-  "count": 284,
+  "count": 285,
   "adapters": [
     {
       "site": "arxiv",
@@ -68,6 +68,19 @@
     },
     {
       "site": "bilibili",
+      "name": "collect",
+      "description": "收藏 / 取消收藏 B站视频（官方 API，需登录；同一工具正反向：--action add|remove）",
+      "access": "write",
+      "domain": "www.bilibili.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "bilibili/collect.js",
+      "sha256": "d5ec583115a7940f14cc8f809a4a68597da650ba140665603d5c47a381cd6e30"
+    },
+    {
+      "site": "bilibili",
       "name": "comments",
       "description": "获取 B站视频评论（官方 API；用 --parent <rpid> 读取某条评论下的「楼中楼」回复）",
       "access": "read",
@@ -96,14 +109,14 @@
       "site": "bilibili",
       "name": "favorite",
       "description": "我的收藏夹",
-      "access": "write",
+      "access": "read",
       "domain": "www.bilibili.com",
       "type": "func",
       "tier": "official",
       "author": "opencli",
       "version": "1.0.0",
       "source": "bilibili/favorite.js",
-      "sha256": "6a9c2ac08dcbe2811c0736122a6af6e02edc2835064af9cd2074b3e0bdc84d40"
+      "sha256": "06c55fe699c4fd2c6bf503b90308fa98b5aed5a9b66eac5d0dfc2be78d904051"
     },
     {
       "site": "bilibili",
