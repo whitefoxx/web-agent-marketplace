@@ -3,7 +3,7 @@
   "bundledAt": "2026-05-31T18:00:00.000Z",
   "generatedFrom": "opencli/clis",
   "includeAll": false,
-  "count": 286,
+  "count": 290,
   "adapters": [
     {
       "site": "arxiv",
@@ -3670,6 +3670,58 @@
       "version": "1.1.0",
       "source": "zhihu/search.js",
       "sha256": "96c10048a069181e95f126c65ebd2558ce07f5f652162c934ebdd068a73c0762"
+    },
+    {
+      "site": "producthunt",
+      "name": "today",
+      "description": "Product Hunt 今日上榜产品(排名/名称/标语/票数/评论数/话题/链接)",
+      "access": "read",
+      "domain": "www.producthunt.com",
+      "type": "pipeline",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "producthunt/today.js",
+      "sha256": "e7ab5c4d9527816e630f0ca996103c1de5fc9e7032c79f3af7f181ad3e657c24"
+    },
+    {
+      "site": "producthunt",
+      "name": "product",
+      "description": "Product Hunt 单个产品详情(名称/标语/官网/票数/话题)。传产品 slug(如 vercel)",
+      "access": "read",
+      "domain": "www.producthunt.com",
+      "type": "pipeline",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "producthunt/product.js",
+      "sha256": "18a7628a1d8e6506845903e3124f76bbb1892bcd357675c649e6f3a2886416f7"
+    },
+    {
+      "site": "producthunt",
+      "name": "comments",
+      "description": "Product Hunt 某产品的评论(作者 / @handle / 内容)。传产品 slug(如 vercel)",
+      "access": "read",
+      "domain": "www.producthunt.com",
+      "type": "pipeline",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "producthunt/comments.js",
+      "sha256": "ac2353c15c095b8f3ed4a40e49541347e193dc4f1e45fcc081e39337fd4282dc"
+    },
+    {
+      "site": "producthunt",
+      "name": "search",
+      "description": "Product Hunt 搜索产品(名称 / 标语 / product_id)。注:聚光搜索结果不含 slug/URL",
+      "access": "read",
+      "domain": "www.producthunt.com",
+      "type": "pipeline",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "producthunt/search.js",
+      "sha256": "11b700117211d4d6750de43977661ba6624f392c0031617add2b3132d6557f9f"
     }
   ]
 }
