@@ -76,11 +76,15 @@ var detailCommand = cli({
     const id = requireConversationId(kwargs.id);
     await page.goto(`https://claude.ai/chat/${id}`);
     try {
-      await page.wait({ selector: MESSAGE_SELECTOR, timeout: 10 });
+      await page.wait({ selector: MESSAGE_SELECTOR, timeout: 25 });
     } catch {
     }
     await ensureClaudeLogin(page, "Claude detail requires a logged-in Claude session.");
-    const messages = await getVisibleMessages(page);
+    let messages = await getVisibleMessages(page);
+    for (let i = 0; i < 6 && messages.length === 0; i++) {
+      await page.wait({ time: 1.5 });
+      messages = await getVisibleMessages(page);
+    }
     if (messages.length > 0) return messages;
     throw new EmptyResultError("claude detail", `No visible Claude messages were found for conversation ${id}.`);
   }
