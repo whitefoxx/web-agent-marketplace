@@ -296,6 +296,7 @@ cli({
     site: 'linkedin',
     name: 'connect',
     access: 'write',
+    confirmBeforeUse: true,
     description: 'Fail-closed LinkedIn connection request sender that verifies the exact profile before optionally sending a note',
     domain: LINKEDIN_DOMAIN,
     strategy: Strategy.UI,

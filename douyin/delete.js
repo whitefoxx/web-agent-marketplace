@@ -183,6 +183,7 @@ cli({
   site: "douyin",
   name: "delete",
   access: "write",
+  confirmBeforeUse: true,
   description: "删除作品（优先使用创作者后台作品管理；找不到时回退到旧删除接口）",
   domain: "creator.douyin.com",
   strategy: Strategy.COOKIE,

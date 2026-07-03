@@ -108,6 +108,7 @@ cli({
   site: "twitter",
   name: "delete",
   access: "write",
+  confirmBeforeUse: true,
   description: "Delete a specific tweet by URL",
   domain: "x.com",
   strategy: Strategy.UI,

@@ -3,6 +3,7 @@ cli({
     site: 'instagram',
     name: 'collection-delete',
     access: 'write',
+    confirmBeforeUse: true,
     description: 'Delete an Instagram saved-posts collection (folder) by name or id',
     domain: 'www.instagram.com',
     args: [

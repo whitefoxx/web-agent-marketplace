@@ -725,7 +725,7 @@
       "author": "opencli",
       "version": "1.0.0",
       "source": "douyin/delete.js",
-      "sha256": "f727e2668cb57d7aa9f7c89594ed2a271260c554b3e3355d7f82eca42edfae0f"
+      "sha256": "8dfb24932426f190989793721d7a92f36d5abe9d292b5e143524961c20b964a6"
     },
     {
       "site": "douyin",
@@ -1020,7 +1020,7 @@
       "author": "opencli",
       "version": "1.0.0",
       "source": "instagram/collection-delete.js",
-      "sha256": "bf9de03f7f896ca545a13bc8d7add12230c3fb2b10d373f383c66b178a8b007a"
+      "sha256": "c28f8f34f18841103dd9bf368da5dd829403ced7fb933385e9b5a89da9fc64b6"
     },
     {
       "site": "instagram",
@@ -1279,7 +1279,7 @@
       "author": "opencli",
       "version": "1.0.0",
       "source": "linkedin/connect.js",
-      "sha256": "2336edac975457edaaaa81d95b89088993ecc8ce0d5b2db2b0aadab8fff5a7e2"
+      "sha256": "fcbdddc29e9be16ec99a131182fc6c4204bc8936ae8c48d8465b201214999ae7"
     },
     {
       "site": "linkedin",
@@ -2282,7 +2282,7 @@
       "author": "opencli",
       "version": "1.0.0",
       "source": "twitter/delete.js",
-      "sha256": "896dd85abb521ec3ae97e6345423d53471c53ae759245ffa345823f45ddd9a29"
+      "sha256": "ac008d024e62c36e551cefa0022e9bea4f438b4480915a048aea77b57cbd702f"
     },
     {
       "site": "twitter",
