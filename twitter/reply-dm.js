@@ -45,7 +45,7 @@ cli({
         const skipReplied = kwargs['skip-replied'] !== false;
         // Per-adapter scratch key (§10.22): unique so it can't collide with any
         // other adapter's stash in the same tab's sessionStorage.
-        const SCRATCH_KEY = '__webchat_twitter_reply_dm__';
+        const SCRATCH_KEY = '__web_twitter_reply_dm__';
 
         // -- Inbox list scrape script (unchanged extraction logic) -------------
         const buildConvListScript = (needed) => `(async () => {

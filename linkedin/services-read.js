@@ -197,7 +197,7 @@ function normalizeServices(row) {
     reviews_visibility: normalizeWhitespace(row.reviews_visibility)
   };
 }
-var SCRATCH_KEY = "__webchat_linkedin_services_read__";
+var SCRATCH_KEY = "__web_linkedin_services_read__";
 function deriveEditUrl(servicesUrl) {
   const url = new URL(servicesUrl);
   url.pathname = url.pathname.replace(/\/(?:edit|media)\/?$/, "/").replace(/\/?$/, "/edit/");

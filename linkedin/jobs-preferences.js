@@ -137,7 +137,7 @@ cli({
     // scrapes alerts and recovers the stashed prefs to return both. The URL
     // guard makes the replay that lands on the alerts page skip stage 1 (so it
     // doesn't bounce back to /jobs/preferences and ping-pong). See §10.22.
-    const SCRATCH_KEY = "__webchat_linkedin_jobs_preferences__";
+    const SCRATCH_KEY = "__web_linkedin_jobs_preferences__";
     const here = await page.getCurrentUrl().catch(() => "");
     if (!/\/jobs\/alerts(?:\/|\?|#|$)/.test(here)) {
       await page.goto(PREFERENCES_URL);

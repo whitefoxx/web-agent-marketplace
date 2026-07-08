@@ -452,7 +452,7 @@ async function enrichJobDetails(page, jobs) {
 // Called only when (a) the func runs --details AND (b) it is on a job-detail page
 // with a live stash (a per-job replay). Stage-0 (search page) seeds the stash and
 // kicks off the first navigation in the func body below.
-const DETAILS_SCRATCH_KEY = '__webchat_linkedin_search__';
+const DETAILS_SCRATCH_KEY = '__web_linkedin_search__';
 function buildDetailsStashScript(state) {
     return buildScratchSetScript(DETAILS_SCRATCH_KEY, JSON.stringify(state));
 }

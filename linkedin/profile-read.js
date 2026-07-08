@@ -207,7 +207,7 @@ cli({
     // row to merge both. The final-page guard makes the replay that lands on the
     // editor skip stage 1 (so it doesn't bounce back to the profile and
     // ping-pong). See docs/adapter-hot-plug.md §10.22.
-    const SCRATCH_KEY = "__webchat_linkedin_profile_read__";
+    const SCRATCH_KEY = "__web_linkedin_profile_read__";
     const here = await page.getCurrentUrl().catch(() => "");
     if (!/\/edit\/forms\/summary\//.test(here)) {
       await page.goto(profileUrl);

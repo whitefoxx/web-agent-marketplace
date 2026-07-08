@@ -1,6 +1,6 @@
-# webchat-agent-marketplace
+# web-agent-marketplace
 
-The adapter catalog for [WebChat Agent](https://github.com/whitefoxx/webchat-agent)
+The adapter catalog for [Web Agent](https://github.com/whitefoxx/web-agent)
 — site-specific "adapters" (deterministic `cli({…})` commands that read/act on a
 site) that the extension browses and installs **on demand over HTTPS**, so the
 extension itself stays small (only the generic browser tools ship in the bundle).
@@ -19,7 +19,7 @@ no re-auth), deterministically — fast, cheap, reliable vs. raw computer-use.
 
 ## Install — just tell your agent
 
-You don't clone or configure anything. In the WebChat Agent extension, ask in
+You don't clone or configure anything. In the Web Agent extension, ask in
 plain language — the agent finds and installs the right adapter, then verifies it:
 
 > “有没有现成的 微博 搜索工具?装上试试” · “install a Reddit comment adapter and verify it works”
@@ -41,7 +41,7 @@ bytes. The extension fetches `index.json` to populate the browse grid, then pull
 before registering** — so a tampered file is refused.
 
 Served via GitHub raw:
-`https://raw.githubusercontent.com/whitefoxx/webchat-agent-marketplace/main/`
+`https://raw.githubusercontent.com/whitefoxx/web-agent-marketplace/main/`
 
 ## Editing / contributing
 
@@ -50,4 +50,4 @@ originate from [opencli](https://github.com/jackwener/opencli)). After editing a
 adapter you MUST rotate its `sha256` (and any changed `description`/`access`/
 `domain`) in `index.json` — the install path enforces the hash, so a mismatch is
 refused. (The source-lint invariants + index-regen tooling live in the
-[webchat-agent](https://github.com/whitefoxx/webchat-agent) repo's history.)
+[web-agent](https://github.com/whitefoxx/web-agent) repo's history.)
