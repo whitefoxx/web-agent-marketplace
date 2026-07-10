@@ -3,7 +3,7 @@
   "bundledAt": "2026-05-31T18:00:00.000Z",
   "generatedFrom": "opencli/clis",
   "includeAll": false,
-  "count": 290,
+  "count": 294,
   "adapters": [
     {
       "site": "arxiv",
@@ -3306,6 +3306,58 @@
       "version": "1.0.0",
       "source": "xiaohongshu/user.js",
       "sha256": "d9bae77713a97bd7839bfcf3973215fe1e3304696eb0040c63ad11c31b047d14"
+    },
+    {
+      "site": "xiaohongshu",
+      "name": "feed",
+      "description": "小红书首页推荐 Feed (DOM scrape from /explore)",
+      "access": "read",
+      "domain": "www.xiaohongshu.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "xiaohongshu/feed.js",
+      "sha256": "9d9a1b2b6f5ed6c1994ebc22217dffd00f159f10be08131d3cf5fd9b62e1b2db"
+    },
+    {
+      "site": "xiaohongshu",
+      "name": "notifications",
+      "description": "小红书通知列表（v0 仅 mentions tab；DOM scrape from /notification）",
+      "access": "read",
+      "domain": "www.xiaohongshu.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "xiaohongshu/notifications.js",
+      "sha256": "49ee6b1f4ce1c7b5269d79b8f751e9f2297baa796855963baafe812bf936fe7d"
+    },
+    {
+      "site": "xiaohongshu",
+      "name": "download",
+      "description": "下载小红书笔记中的图片和视频到本地 Downloads 文件夹（chrome.downloads，使用浏览器自带的 cookie）",
+      "access": "read",
+      "domain": "www.xiaohongshu.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "xiaohongshu/download.js",
+      "sha256": "69333410b9f41299617dfa3346a88384425a66c05a0c562173ad758a96d44062"
+    },
+    {
+      "site": "xiaohongshu",
+      "name": "comment-create",
+      "description": "在小红书笔记下写评论/回复（按评论 ID 定位；默认只写入不发送，send=true 才发送，replies 批量）",
+      "access": "write",
+      "domain": "www.xiaohongshu.com",
+      "type": "func",
+      "tier": "official",
+      "author": "opencli",
+      "version": "1.0.0",
+      "source": "xiaohongshu/comment-create.js",
+      "sha256": "6c1f7acbd2f7234d28031ab68082b17a37cd5a74777321a27ecdcf8f7818fe83"
     },
     {
       "site": "youtube",
